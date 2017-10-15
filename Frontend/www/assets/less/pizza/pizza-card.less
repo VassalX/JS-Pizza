@@ -1,5 +1,8 @@
+@iconSize: 15px;
 .pizza-card {
-  img {
+  position: relative;
+  .pizza-img {
+    width: 100%;
     max-width: 250px;
   }
 
@@ -7,4 +10,52 @@
     color: @mainColor;
     background-color: lighten(@mainColor, 45%);
   }
+}
+
+.badge.special{
+  position: absolute;
+  font-weight: 900;
+  font-size: 12pt;
+  top: -10px;
+  right: -10px;
+  padding: 8px;
+}
+
+.newPizza{
+  background-color: #e4474a;
+}
+
+.popularPizza{
+  background-color: #70cd52;
+}
+
+.money-value{
+  padding-top: 15px;
+  font-size: 25pt;
+  line-height: 25pt;
+  font-weight: 600;
+}
+
+.weight-icon{
+  display: inline-block;
+  height: @iconSize;
+  width: @iconSize;
+}
+
+.radius-icon{
+  display: inline-block;
+  height: @iconSize;
+  width: @iconSize;
+}
+
+.buy-small{
+  text-align: center;
+}
+
+.buy-big{
+  text-align: center;
+}
+
+.buy{
+  margin: 5px;
 }

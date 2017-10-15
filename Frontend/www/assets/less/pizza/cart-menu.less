@@ -1,0 +1,147 @@
+@cartWidth: 275px;
+@makeOrderHeight: 150px;
+#cart{
+  position: fixed;
+  width: @cartWidth;
+  height: 100%;
+  top:0;
+  right: 0;
+  z-index: 11;
+  background-color: cornsilk;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  .inner-panel{
+    height: 100%;
+    .top-panel{
+      position: absolute;
+      width: 100%;
+      height: @top-menuHeight;
+      background-color: white;
+      top: 0;
+      right: 0;
+      padding-left: 10px;
+      padding-right: 10px;
+      line-height: @top-menuHeight;
+      font-size: 12pt;
+      .order{
+        font-weight: bold;
+      }
+      #number_cart{
+        line-height: 15px;
+        background-color: @mainColor;
+        font-size: 10pt;
+        border-radius: 100%;
+      }
+      #clear_cart{
+        color: @fontColorLightGrey;
+        font-size: 8pt;
+        float: right;
+      }
+    }
+    .cart-list{
+      position: absolute;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      box-sizing: border-box;
+      bottom: @makeOrderHeight;
+      top: @top-menuHeight;
+      background-color: #f8f8f8;
+      .item{
+        position: relative;
+        padding-left: 10px;
+        line-height: 40px;
+        height: 130px;
+        align-items: center;
+        border-bottom: 1px solid lightgray;
+        .item-name{
+          font-size: 14pt;
+          font-weight: bold;
+          color: @mainColor;
+        }
+        .item-icon{
+          position: absolute;
+          top: 20px;
+          height: 90px;
+          width: 90px;
+          right: -45px;
+        }
+        .btn{
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
+        }
+        .item-price{
+          .glyphicon{
+            font-size: 10pt;
+          }
+          .btn{
+            padding: 5px;
+          }
+          .minus{
+            color: white;
+            background-color: #e4474a;
+            background: linear-gradient(to top,darken(#e4474a,10%),#e4474a);
+            border: 1px solid darken(#e4474a,20%);
+          }
+          .plus{
+            color: white;
+            background-color: #70cd52;
+            background: linear-gradient(to top,darken(#70cd52,10%),#70cd52);
+            border: 1px solid darken(#70cd52,20%);
+          }
+          .delete{
+            color: @mainColor;
+            background-color: white;
+            background: linear-gradient(to top,darken(white,10%),white);
+            border: 1px solid darken(white,20%);
+            margin-left: 20px;
+          }
+          .item-number{
+            margin: 5px;
+          }
+        }
+      }
+    }
+    .bottom-panel{
+      position: absolute;
+      width: 100%;
+      height: @makeOrderHeight;
+      background-color: white;
+      padding: 10px;
+      bottom: 0;
+      right: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to top, darken(white,5%), white);
+      border-top: 1px solid lightgray;
+      .money-part{
+        font-size: 12pt;
+        #sum_money{
+          font-weight: bolder;
+          float: right;
+        }
+      }
+      .order-button-part{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        #make-order{
+          position: absolute;
+          width: 70%;
+          height: 50%;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          margin: auto;
+          color: white;
+          background: linear-gradient(to top, @mainColor, lighten(@mainColor,10%));
+          border: 2px solid lighten(@mainColor,10%);
+          font-weight: bold;
+          box-shadow: 0 3px 10px rgba(0,0,0,0.5); /* Параметры тени */
+        }
+      }
+    }
+  }
+}

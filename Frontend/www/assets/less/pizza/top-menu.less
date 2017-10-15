@@ -1,0 +1,41 @@
+@top-menuHeight: 80px;
+@smallSpace: 10px;
+@badgeWidth: 100px;
+#top-menu{
+  position: fixed;
+  top: 0;
+  right: @cartWidth;
+  width: 100%;
+  height: @top-menuHeight;
+  background-color: rgba(0,0,0,0.75);
+  z-index: 10;
+  .top-menu-panel{
+    position: fixed;
+    left: @smallSpace+@badgeWidth+@smallSpace;
+    right: @cartWidth+@smallSpace;
+    min-width: 180px;
+    height: @top-menuHeight;
+    .menu-lines{
+      color: white;
+      .first-line{
+        font-size: 10pt;
+        border-bottom: 1px solid white;
+        line-height: @top-menuHeight/2;
+        .info{
+          display: inline-block;
+        }
+        .login-logout{
+          float: right;
+          .loginButton{
+            color: white;
+            background: linear-gradient(to top, darken(@mainColor,10%), @mainColor);
+            border: 1px solid @mainColor;
+          }
+        }
+      }
+      .second-line{
+        line-height: @top-menuHeight/2;
+      }
+    }
+  }
+}

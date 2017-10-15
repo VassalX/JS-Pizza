@@ -1,3 +1,125 @@
-@mainColor: blue;
-
+@mainColor: #EA862E;
+@fontColorGrey: #232323;
+@fontColorLightGrey: #9b9b9b;
+@bottomBadgeHeight: 120px;
+@discountHeight: 50px;
 @import "pizza/pizza-card";
+@import "pizza/top-menu";
+@import "pizza/cart-menu";
+
+body{
+  background-color: #fff6ea;
+}
+
+#pizza_list{
+  min-width: 250px;
+}
+
+.container-fluid{
+  margin-top: @top-menuHeight;
+  margin-right: @cartWidth;
+}
+
+.main-container{
+  max-width: 1200px;
+  min-width: 550px;
+  margin: auto;
+}
+
+.chosen{
+  font-weight: bolder;
+}
+
+.chosenOption{
+  line-height: 50px;
+  font-size: 16pt;
+  color: @fontColorGrey;
+}
+
+.badge.chosenNumber{
+  line-height: 15px;
+  background-color: @mainColor;
+  font-size: 10pt;
+  border-radius: 100%;
+  margin: 5px;
+}
+
+.choice-menu{
+  position: relative;
+  text-align: center;
+  padding: 10px;
+}
+
+.chooseButton{
+  border: 0;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  &.pressed{
+    background-color: @mainColor;
+    color: white;
+  }
+  &.unpressed{
+    background-color: rgba(255,255,255,0);
+    color: @mainColor;
+  }
+}
+
+.chooseButtonsGroup{
+  padding: 10px;
+}
+
+h3{
+  font-weight: bolder;
+}
+
+.badge-flag{
+  position: fixed;
+  background-color: #EA862E;
+  line-height: 16pt;
+  padding: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: block;
+  text-align: center;
+  color: white;
+  font-size: 16pt;
+  z-index: 12;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  &.top{
+    top: 0;
+    left: @smallSpace;
+    width: @badgeWidth;
+    height: @top-menuHeight;
+  }
+  &.bottom{
+    padding:5px;
+    bottom: 0;
+    left: @smallSpace;
+    width: @badgeWidth;
+    height: @bottomBadgeHeight;
+    .disc-label{
+      height: @bottomBadgeHeight - @discountHeight;
+    }
+  }
+  .boldText{
+    font-weight: bolder;
+    font-size: 18pt;
+  }
+  .discount{
+    line-height: 40px;
+    border-top: 1px dashed darken(@mainColor,20%);
+  }
+}
+
+.flag{
+  position: fixed;
+  left:@smallSpace;
+  &.top{
+    top:@top-menuHeight - 1px;
+    transform: scaleY(-1);
+  }
+  &.bottom{
+    bottom:@bottomBadgeHeight - 1px;
+  }
+}
