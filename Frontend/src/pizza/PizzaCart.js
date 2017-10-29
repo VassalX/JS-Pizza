@@ -2,7 +2,9 @@
  * Created by chaika on 02.02.16.
  */
 var Templates = require('../Templates');
-
+var basil	=	require('basil.js');
+var cartKey = 1;
+basil	=	new	basil();
 //Перелік розмірів піци
 var PizzaSize = {
     Big: "big_size",
@@ -56,7 +58,9 @@ function initialiseCart() {
     //Фукнція віпрацьвуватиме при завантаженні сторінки
     //Тут можна наприклад, зчитати вміст корзини який збережено в Local Storage то показати його
     //TODO: ...
-
+    var newCart = basil.get(cartKey);
+    if(newCart!==null)
+        Cart = newCart;
     updateCart();
 }
 
@@ -110,15 +114,17 @@ function updateCart() {
         $(".clear_cart").click(function () {
             Cart = [];
             updateCart();
-        })
+        });
         $(".number_cart").text(Cart.length);
         $("#sum_money").text(total+" грн.");
         if(cart_item.quantity!==0) {
             $cart.append($node);
         }
+        basil.set(cartKey,Cart);
     }
     $(".number_cart").text(Cart.length);
     $("#sum_money").text(total+" грн.");
+    basil.set(cartKey,Cart);
     Cart.forEach(showOnePizzaInCart);
 }
 
