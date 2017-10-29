@@ -1,17 +1,17 @@
 @cartWidth: 275px;
 @makeOrderHeight: 150px;
-#cart{
+.cart {
   position: fixed;
   width: @cartWidth;
   height: 100%;
-  top:0;
+  top: 0;
   right: 0;
-  z-index: 11;
+  z-index: 14;
   background-color: cornsilk;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  .inner-panel{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  .inner-panel {
     height: 100%;
-    .top-panel{
+    .top-panel {
       position: absolute;
       width: 100%;
       height: @top-menuHeight;
@@ -22,22 +22,22 @@
       padding-right: 10px;
       line-height: @top-menuHeight;
       font-size: 12pt;
-      .order{
+      .order {
         font-weight: bold;
       }
-      #number_cart{
+      .number_cart {
         line-height: 15px;
         background-color: @mainColor;
         font-size: 10pt;
         border-radius: 100%;
       }
-      #clear_cart{
+      .clear_cart {
         color: @fontColorLightGrey;
         font-size: 8pt;
         float: right;
       }
     }
-    .cart-list{
+    .cart-list {
       position: absolute;
       width: 100%;
       overflow-x: hidden;
@@ -46,63 +46,64 @@
       bottom: @makeOrderHeight;
       top: @top-menuHeight;
       background-color: #f8f8f8;
-      .item{
+      .item {
         position: relative;
         padding-left: 10px;
         line-height: 40px;
         height: 130px;
         align-items: center;
         border-bottom: 1px solid lightgray;
-        .item-name{
+        .item-name {
           font-size: 14pt;
           font-weight: bold;
           color: @mainColor;
         }
-        .item-icon{
+        .item-icon {
           position: absolute;
           top: 20px;
           height: 90px;
           width: 90px;
           right: -45px;
         }
-        .btn{
+        .btn {
           width: 30px;
           height: 30px;
           border-radius: 100%;
         }
-        .item-price{
-          .glyphicon{
+        .item-price {
+          .glyphicon {
             font-size: 10pt;
           }
-          .btn{
+          .btn {
             padding: 5px;
+            text-shadow: rgba(0, 0, 0, 0.2) 0px -1px 0px;
+            box-shadow: rgba(255, 255, 255, 0.15) 0px 1px 0px inset, rgba(0, 0, 0, 0.075) 0px 1px 1px;
           }
-          .minus{
+          .minus {
             color: white;
             background-color: #e4474a;
-            background: linear-gradient(to top,darken(#e4474a,10%),#e4474a);
-            border: 1px solid darken(#e4474a,20%);
+            background: linear-gradient(to top, darken(#e4474a, 10%), #ff5053);
+            border: 1px solid darken(#e4474a, 20%);
           }
-          .plus{
+          .plus {
             color: white;
             background-color: #70cd52;
-            background: linear-gradient(to top,darken(#70cd52,10%),#70cd52);
-            border: 1px solid darken(#70cd52,20%);
+            background: linear-gradient(to top, darken(#70cd52, 10%), #70cd52);
+            border: 1px solid darken(#70cd52, 20%);
           }
-          .delete{
+          .delete {
             color: @mainColor;
             background-color: white;
-            background: linear-gradient(to top,darken(white,10%),white);
-            border: 1px solid darken(white,20%);
-            margin-left: 20px;
+            background: linear-gradient(to top, darken(white, 10%), white);
+            border: 1px solid darken(white, 20%);
           }
-          .item-number{
+          .item-number {
             margin: 5px;
           }
         }
       }
     }
-    .bottom-panel{
+    .bottom-panel {
       position: absolute;
       width: 100%;
       height: @makeOrderHeight;
@@ -113,20 +114,20 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(to top, darken(white,5%), white);
+      background: linear-gradient(to top, darken(white, 5%), white);
       border-top: 1px solid lightgray;
-      .money-part{
+      .money-part {
         font-size: 12pt;
-        #sum_money{
+        #sum_money {
           font-weight: bolder;
           float: right;
         }
       }
-      .order-button-part{
+      .order-button-part {
         position: relative;
         width: 100%;
         height: 100%;
-        #make-order{
+        #make-order {
           position: absolute;
           width: 70%;
           height: 50%;
@@ -136,10 +137,10 @@
           left: 0;
           margin: auto;
           color: white;
-          background: linear-gradient(to top, @mainColor, lighten(@mainColor,10%));
-          border: 2px solid lighten(@mainColor,10%);
+          background: linear-gradient(to top, @mainColor, lighten(@mainColor, 10%));
+          border: 2px solid lighten(@mainColor, 10%);
           font-weight: bold;
-          box-shadow: 0 3px 10px rgba(0,0,0,0.5); /* Параметры тени */
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5); /* Параметры тени */
         }
       }
     }

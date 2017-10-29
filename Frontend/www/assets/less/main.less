@@ -7,41 +7,42 @@
 @import "pizza/top-menu";
 @import "pizza/cart-menu";
 
-body{
+.container-fluid{
+  width: 100%;
+  padding-top: @top-menuHeight;
   background-color: #fff6ea;
 }
 
-#pizza_list{
-  min-width: 250px;
-}
-
-.container-fluid{
-  margin-top: @top-menuHeight;
-  margin-right: @cartWidth;
-}
-
-.main-container{
+.center-panel{
   max-width: 1200px;
-  min-width: 550px;
-  margin: auto;
+  min-width: 250px;
+  padding-right: @cartWidth;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.inner-panel{
+  min-width: 260px;
 }
 
 .chosen{
+  width: 100%;
+  font-size: 16pt;
   font-weight: bolder;
+  line-height: 50px;
+  height: 50px;
 }
 
 .chosenOption{
   line-height: 50px;
-  font-size: 16pt;
   color: @fontColorGrey;
 }
 
-.badge.chosenNumber{
-  line-height: 15px;
+.badge.pizzaNumber{
+  font-size: 13pt;
   background-color: @mainColor;
-  font-size: 10pt;
   border-radius: 100%;
-  margin: 5px;
+  margin-left: 5px;
 }
 
 .choice-menu{
@@ -55,13 +56,14 @@ body{
   font-weight: bold;
   padding-left: 10px;
   padding-right: 10px;
-  &.pressed{
+  background-color: transparent;
+  &.active{
     background-color: @mainColor;
     color: white;
   }
-  &.unpressed{
-    background-color: rgba(255,255,255,0);
-    color: @mainColor;
+  &.active:hover{
+    background-color: @mainColor;
+    color: white;
   }
 }
 
@@ -84,13 +86,13 @@ h3{
   text-align: center;
   color: white;
   font-size: 16pt;
-  z-index: 12;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   &.top{
     top: 0;
     left: @smallSpace;
     width: @badgeWidth;
     height: @top-menuHeight;
+    z-index: 12;
   }
   &.bottom{
     padding:5px;
@@ -101,6 +103,7 @@ h3{
     .disc-label{
       height: @bottomBadgeHeight - @discountHeight;
     }
+    z-index: 11;
   }
   .boldText{
     font-weight: bolder;
@@ -122,4 +125,15 @@ h3{
   &.bottom{
     bottom:@bottomBadgeHeight - 1px;
   }
+}
+
+.footer{
+  text-align: center;
+  padding-right: @cartWidth;
+  padding-top:40px;
+  padding-bottom: 40px;
+  color: @fontColorLightGrey;
+  height: @bottomBadgeHeight+20px;
+  background-color: white;
+  border-top: solid 1px lightgrey;
 }

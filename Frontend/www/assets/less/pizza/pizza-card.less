@@ -6,9 +6,22 @@
     max-width: 250px;
   }
 
-  h3 {
+  .title{
     color: @mainColor;
+    font-weight: bolder;
+    font-size: 16pt;
     background-color: lighten(@mainColor, 45%);
+  }
+
+  .type{
+    color: @fontColorLightGrey;
+  }
+
+  .description{
+    font-size: 14px;
+    height: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -48,11 +61,11 @@
   width: @iconSize;
 }
 
-.buy-small{
+.pizza-small{
   text-align: center;
 }
 
-.buy-big{
+.pizza-big{
   text-align: center;
 }
 

@@ -184,11 +184,11 @@ module.exports = pizza_info;
 var ejs = require('ejs');
 
 
-exports.PizzaMenu_OneItem = ejs.compile("<%\n\nfunction getIngredientsArray(pizza) {\n    //Отримує вміст піци\n    var content = pizza.content;\n    var result = [];\n\n    //Object.keys повертає масив ключів в об’єкті JavaScript\n\n    Object.keys(content).forEach(function(key){\n\n        //a.concat(b) створює спільний масив із масивів a та b\n        result = result.concat(content[key]);\n    });\n\n    return result;\n}\n\n   %>\n<div class=\"col-md-6 col-lg-4 pizza-card\">\n    <div class=\"thumbnail\">\n        <img class=\"pizza-icon\" src=\"<%= pizza.icon %>\" alt=\"Pizza\">\n\n        <% if(pizza.is_new) { %>\n        <span class=\"label label-danger\">Нова</span>\n        <% } else if(pizza.is_popular) {%>\n        <span class=\"label label-success\">Популярна</span>\n        <% } %>\n\n        <div class=\"caption\">\n            <span class=\"title\"><%= pizza.title %></span>\n            <div class=\"type\"><%= pizza.type %></div>\n            <div class=\"description\">\n                <%= getIngredientsArray(pizza).join(\", \") %>\n            </div>\n        </div>\n\n        <!-- Перед тим щоб показати кнопку необхідно переконатися, що піца має великий розмір -->\n        <button class=\"btn btn-primary buy-big\">Купити велику</button>\n    </div>\n</div>");
+exports.PizzaMenu_OneItem = ejs.compile("<%\r\n    var smallCol = \"col-sm-6 pizza-small\";\r\n    var bigCol = \"col-sm-6 pizza-big\";\r\n\r\n    if(pizza.big_size===undefined)\r\n        smallCol = \"col-xs-12\";\r\n\r\n    if(pizza.small_size===undefined)\r\n        bigCol = \"col-xs-12\";\r\n\r\nfunction getIngredientsArray(pizza) {\r\n    //Отримує вміст піци\r\n    var content = pizza.content;\r\n    var result = [];\r\n\r\n    //Object.keys повертає масив ключів в об’єкті JavaScript\r\n\r\n    Object.keys(content).forEach(function(key){\r\n\r\n        //a.concat(b) створює спільний масив із масивів a та b\r\n        result = result.concat(content[key]);\r\n    });\r\n\r\n    return result;\r\n}\r\n\r\n   %>\r\n<div class=\"col-sm-6 col-md-4\">\r\n    <div class=\"thumbnail pizza-card\">\r\n        <img class=\"pizza-img\" src=\"<%= pizza.icon %>\" alt=\"Pizza\">\r\n\r\n        <% if(pizza.is_new) { %>\r\n        <div class=\"badge special newPizza\">Нова</div>\r\n        <% } else if(pizza.is_popular) {%>\r\n        <div class=\"badge special popularPizza\">Популярна</div>\r\n        <% } %>\r\n\r\n        <div class=\"caption\">\r\n            <span class=\"title\"><%= pizza.title %></span>\r\n            <div class=\"type\"><%= pizza.type %></div>\r\n            <div class=\"description\">\r\n                <%= getIngredientsArray(pizza).join(\", \") %>\r\n            </div>\r\n            <div class=\"row\">\r\n                <% if(pizza.small_size!==undefined){%>\r\n                <div class=\"<%=smallCol%>\">\r\n                    <div class=\"radius\">\r\n                        <img class=\"radius-icon\" src=\"assets/images/size-icon.svg\">\r\n                        <span class=\"radius-value\"><%= pizza.small_size.size %></span>\r\n                    </div>\r\n                    <div class=\"weight\">\r\n                        <img class=\"weight-icon\" src=\"assets/images/weight.svg\">\r\n                        <span class=\"weight-value\"><%= pizza.small_size.weight %></span>\r\n                    </div>\r\n                    <div class=\"money-value\">\r\n                        <%= pizza.small_size.price %>\r\n                    </div>\r\n                    <div class=\"money\">\r\n                        грн.\r\n                    </div>\r\n                    <button class=\"btn btn-primary buy buy-small\">Купити</button>\r\n                </div>\r\n                <% }if(pizza.big_size!==undefined){%>\r\n                <div class=\"<%=bigCol%>\">\r\n                    <div class=\"radius\">\r\n                        <img class=\"radius-icon\" src=\"assets/images/size-icon.svg\">\r\n                        <span class=\"radius-value\"><%= pizza.big_size.size %></span>\r\n                    </div>\r\n                    <div class=\"weight\">\r\n                        <img class=\"weight-icon\" src=\"assets/images/weight.svg\">\r\n                        <span class=\"weight-value\"><%= pizza.big_size.weight %></span>\r\n                    </div>\r\n                    <div class=\"money-value\">\r\n                        <%= pizza.big_size.price%>\r\n                    </div>\r\n                    <div class=\"money\">\r\n                        грн.\r\n                    </div>\r\n                    <button class=\"btn btn-default buy buy-big\">Купити</button>\r\n                </div>\r\n                <%}%>\r\n            </div>\r\n        </div>\r\n        <!-- Перед тим щоб показати кнопку необхідно переконатися, що піца має великий розмір -->\r\n    </div>\r\n</div>");
 
-exports.PizzaCart_OneItem = ejs.compile("<div>\n    <%= pizza.title %> (<%= size %>)\n    <div>Ціна: <%= pizza[size].price %> грн.</div>\n    <div>\n        <button class=\"btn btn-danger minus\">-</button>\n        <span class=\"label label-default\"><%= quantity %></span>\n        <button class=\"btn btn-success plus\">+</button>\n    </div>\n</div>");
+exports.PizzaCart_OneItem = ejs.compile("<div class=\"item\">\r\n    <div class=\"item-name\"> <%= pizza.title %>\r\n        <% if(size == \"big_size\"){ %>\r\n        (Велика)\r\n        <% }else{ %>\r\n        (Мала)\r\n        <% } %>\r\n    </div>\r\n    <div>\r\n        <img class=\"radius-icon\" src=\"assets/images/size-icon.svg\">\r\n        <span class=\"radius-value\"><%= pizza[size].size%></span>\r\n\r\n        <img class=\"weight-icon\" src=\"assets/images/weight.svg\">\r\n        <span class=\"weight-value\"><%= pizza[size].weight%></span>\r\n    </div>\r\n    <div class=\"item-price\">\r\n        <span class=\"price\"><%= pizza[size].price * quantity %> грн.</span>\r\n\r\n        <button class=\"btn btn-default btn-sm minus\">\r\n            <span class=\"glyphicon glyphicon-minus\"></span>\r\n        </button>\r\n\r\n        <span class=\"item-number\"><%= quantity %></span>\r\n\r\n        <button class=\"btn btn-default btn-sm plus\">\r\n            <span class=\"glyphicon glyphicon-plus\"></span>\r\n        </button>\r\n\r\n        <button class=\"btn btn-default btn-sm delete\">\r\n            <span class=\"glyphicon glyphicon-remove\"></span>\r\n        </button>\r\n    </div>\r\n    <img class=\"item-icon\" src=\"assets/images/pizza_1.jpg\">\r\n</div>");
 
-},{"ejs":6}],3:[function(require,module,exports){
+},{"ejs":7}],3:[function(require,module,exports){
 /**
  * Created by chaika on 25.01.16.
  */
@@ -226,17 +226,32 @@ function addToCart(pizza, size) {
     //Додавання однієї піци в кошик покупок
 
     //Приклад реалізації, можна робити будь-яким іншим способом
-    Cart.push({
-        pizza: pizza,
-        size: size,
-        quantity: 1
+    var isFound = false;
+    Cart.forEach(function (cart_item) {
+        if(!isFound && cart_item.pizza==pizza && cart_item.size==size) {
+            cart_item.quantity += 1;
+            isFound = true;
+        }
     });
+    if(!isFound)
+        Cart.push({
+            pizza: pizza,
+            size: size,
+            quantity: 1
+
+        });
 
     //Оновити вміст кошика на сторінці
     updateCart();
 }
 
 function removeFromCart(cart_item) {
+    var newCart = [];
+    Cart.forEach(function (item) {
+        if(item!=cart_item)
+            newCart.push(item);
+    });
+    Cart = newCart;
     //Видалити піцу з кошика
     //TODO: треба зробити
 
@@ -264,12 +279,21 @@ function updateCart() {
     //Очищаємо старі піци в кошику
     $cart.html("");
 
+    var total = 0;
+
     //Онволення однієї піци
     function showOnePizzaInCart(cart_item) {
         var html_code = Templates.PizzaCart_OneItem(cart_item);
 
-        var $node = $(html_code);
+        var pizza = cart_item.pizza;
+        var size = cart_item.size;
 
+        total += pizza[size].price * cart_item.quantity;
+
+        var $node = $(html_code);
+        function updatePrice(){
+
+        }
         $node.find(".plus").click(function(){
             //Збільшуємо кількість замовлених піц
             cart_item.quantity += 1;
@@ -277,12 +301,32 @@ function updateCart() {
             //Оновлюємо відображення
             updateCart();
         });
+        $node.find(".minus").click(function(){
+            //Зменшуємо кількість замовлених піц
+            cart_item.quantity -= 1;
+            if(cart_item.quantity === 0)
+                removeFromCart(cart_item);
+            //Оновлюємо відображення
+            updateCart();
+        });
+        $node.find(".delete").click(function () {
+            removeFromCart(cart_item);
 
-        $cart.append($node);
+            updateCart();
+        });
+        $(".clear_cart").click(function () {
+            Cart = [];
+            updateCart();
+        })
+        $(".number_cart").text(Cart.length);
+        $("#sum_money").text(total+" грн.");
+        if(cart_item.quantity!==0) {
+            $cart.append($node);
+        }
     }
-
+    $(".number_cart").text(Cart.length);
+    $("#sum_money").text(total+" грн.");
     Cart.forEach(showOnePizzaInCart);
-
 }
 
 exports.removeFromCart = removeFromCart;
@@ -302,7 +346,13 @@ var Pizza_List = require('../Pizza_List');
 
 //HTML едемент куди будуть додаватися піци
 var $pizza_list = $("#pizza_list");
-
+var menu_info = [
+    "all",
+    "meat",
+    "pineapple",
+    "mushroom",
+    "ocean"
+];
 function showPizzaList(list) {
     //Очищаємо старі піци в кошику
     $pizza_list.html("");
@@ -331,24 +381,40 @@ function filterPizza(filter) {
     var pizza_shown = [];
 
     Pizza_List.forEach(function(pizza){
-        //Якщо піка відповідає фільтру
-        //pizza_shown.push(pizza);
-
+        //Якщо піца відповідає фільтру
+        if(filter === "all" || JSON.stringify(pizza.content).indexOf(filter)!==-1)
+            pizza_shown.push(pizza);
         //TODO: зробити фільтри
     });
-
+    $(".pizzaNumber").text(pizza_shown.length);
     //Показати відфільтровані піци
     showPizzaList(pizza_shown);
 }
 
 function initialiseMenu() {
     //Показуємо усі піци
-    showPizzaList(Pizza_List)
+    showPizzaList(Pizza_List);
+    $(".pizzaNumber").text(Pizza_List.length);
+    $(".chosenOption").text($(".active").text());
 }
+
+menu_info.forEach(function (menu) {
+    var $filterMenu = $("."+menu);
+    $filterMenu.click(function () {
+        if (!$filterMenu.hasClass("active")){
+            $(".chooseButton").removeClass("active");
+            $filterMenu.addClass("active");
+            filterPizza(menu);
+            $(".chosenOption").text($(".active").text());
+        }
+    });
+});
 
 exports.filterPizza = filterPizza;
 exports.initialiseMenu = initialiseMenu;
 },{"../Pizza_List":1,"../Templates":2,"./PizzaCart":4}],6:[function(require,module,exports){
+
+},{}],7:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -370,7 +436,7 @@ exports.initialiseMenu = initialiseMenu;
 'use strict';
 
 /**
- * @file Embedded JavaScript templating engine.
+ * @file Embedded JavaScript templating engine. {@link http://ejs.co}
  * @author Matthew Eernisse <mde@fleegix.org>
  * @author Tiancheng "Timothy" Gu <timothygu99@gmail.com>
  * @project EJS
@@ -395,19 +461,23 @@ exports.initialiseMenu = initialiseMenu;
  * @public
  */
 
-var fs = require('fs')
-  , utils = require('./utils')
-  , scopeOptionWarned = false
-  , _VERSION_STRING = require('../package.json').version
-  , _DEFAULT_DELIMITER = '%'
-  , _DEFAULT_LOCALS_NAME = 'locals'
-  , _REGEX_STRING = '(<%%|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)'
-  , _OPTS = [ 'cache', 'filename', 'delimiter', 'scope', 'context'
-            , 'debug', 'compileDebug', 'client', '_with', 'rmWhitespace'
-            , 'strict', 'localsName'
-            ]
-  , _TRAILING_SEMCOL = /;\s*$/
-  , _BOM = /^\uFEFF/;
+var fs = require('fs');
+var path = require('path');
+var utils = require('./utils');
+
+var scopeOptionWarned = false;
+var _VERSION_STRING = require('../package.json').version;
+var _DEFAULT_DELIMITER = '%';
+var _DEFAULT_LOCALS_NAME = 'locals';
+var _NAME = 'ejs';
+var _REGEX_STRING = '(<%%|%%>|<%=|<%-|<%_|<%#|<%|%>|-%>|_%>)';
+var _OPTS = ['delimiter', 'scope', 'context', 'debug', 'compileDebug',
+  'client', '_with', 'rmWhitespace', 'strict', 'filename'];
+// We don't allow 'cache' option to be passed in the data obj
+// for the normal `render` call, but this is where Express puts it
+// so we make an exception for `renderFile`
+var _OPTS_EXPRESS = _OPTS.concat('cache');
+var _BOM = /^\uFEFF/;
 
 /**
  * EJS template function cache. This can be a LRU object from lru-cache NPM
@@ -420,9 +490,18 @@ var fs = require('fs')
 exports.cache = utils.cache;
 
 /**
+ * Custom file loader. Useful for template preprocessing or restricting access
+ * to a certain part of the filesystem.
+ *
+ * @type {fileLoader}
+ */
+
+exports.fileLoader = fs.readFileSync;
+
+/**
  * Name of the object containing the locals.
  *
- * This variable is overriden by {@link Options}`.localsName` if it is not
+ * This variable is overridden by {@link Options}`.localsName` if it is not
  * `undefined`.
  *
  * @type {String}
@@ -435,23 +514,63 @@ exports.localsName = _DEFAULT_LOCALS_NAME;
  * Get the path to the included file from the parent file path and the
  * specified path.
  *
- * @param {String} name     specified path
- * @param {String} filename parent file path
+ * @param {String}  name     specified path
+ * @param {String}  filename parent file path
+ * @param {Boolean} isDir    parent file path whether is directory
  * @return {String}
  */
-
-exports.resolveInclude = function(name, filename) {
-  var path = require('path')
-    , dirname = path.dirname
-    , extname = path.extname
-    , resolve = path.resolve
-    , includePath = resolve(dirname(filename), name)
-    , ext = extname(name);
+exports.resolveInclude = function(name, filename, isDir) {
+  var dirname = path.dirname;
+  var extname = path.extname;
+  var resolve = path.resolve;
+  var includePath = resolve(isDir ? filename : dirname(filename), name);
+  var ext = extname(name);
   if (!ext) {
     includePath += '.ejs';
   }
   return includePath;
 };
+
+/**
+ * Get the path to the included file by Options
+ *
+ * @param  {String}  path    specified path
+ * @param  {Options} options compilation options
+ * @return {String}
+ */
+function getIncludePath(path, options) {
+  var includePath;
+  var filePath;
+  var views = options.views;
+
+  // Abs path
+  if (path.charAt(0) == '/') {
+    includePath = exports.resolveInclude(path.replace(/^\/*/,''), options.root || '/', true);
+  }
+  // Relative paths
+  else {
+    // Look relative to a passed filename first
+    if (options.filename) {
+      filePath = exports.resolveInclude(path, options.filename);
+      if (fs.existsSync(filePath)) {
+        includePath = filePath;
+      }
+    }
+    // Then look in any views directories
+    if (!includePath) {
+      if (Array.isArray(views) && views.some(function (v) {
+        filePath = exports.resolveInclude(path, v, true);
+        return fs.existsSync(filePath);
+      })) {
+        includePath = filePath;
+      }
+    }
+    if (!includePath) {
+      throw new Error('Could not find include include file.');
+    }
+  }
+  return includePath;
+}
 
 /**
  * Get the template from a string or a file, either compiled on-the-fly or
@@ -472,35 +591,70 @@ exports.resolveInclude = function(name, filename) {
  */
 
 function handleCache(options, template) {
-  var fn
-    , path = options.filename
-    , hasTemplate = arguments.length > 1;
+  var func;
+  var filename = options.filename;
+  var hasTemplate = arguments.length > 1;
 
   if (options.cache) {
-    if (!path) {
+    if (!filename) {
       throw new Error('cache option requires a filename');
     }
-    fn = exports.cache.get(path);
-    if (fn) {
-      return fn;
+    func = exports.cache.get(filename);
+    if (func) {
+      return func;
     }
     if (!hasTemplate) {
-      template = fs.readFileSync(path).toString().replace(_BOM, '');
+      template = fileLoader(filename).toString().replace(_BOM, '');
     }
   }
   else if (!hasTemplate) {
     // istanbul ignore if: should not happen at all
-    if (!path) {
+    if (!filename) {
       throw new Error('Internal EJS error: no file name or template '
                     + 'provided');
     }
-    template = fs.readFileSync(path).toString().replace(_BOM, '');
+    template = fileLoader(filename).toString().replace(_BOM, '');
   }
-  fn = exports.compile(template, options);
+  func = exports.compile(template, options);
   if (options.cache) {
-    exports.cache.set(path, fn);
+    exports.cache.set(filename, func);
   }
-  return fn;
+  return func;
+}
+
+/**
+ * Try calling handleCache with the given options and data and call the
+ * callback with the result. If an error occurs, call the callback with
+ * the error. Used by renderFile().
+ *
+ * @memberof module:ejs-internal
+ * @param {Options} options    compilation options
+ * @param {Object} data        template data
+ * @param {RenderFileCallback} cb callback
+ * @static
+ */
+
+function tryHandleCache(options, data, cb) {
+  var result;
+  try {
+    result = handleCache(options)(data);
+  }
+  catch (err) {
+    return cb(err);
+  }
+  return cb(null, result);
+}
+
+/**
+ * fileLoader is independent
+ *
+ * @param {String} filePath ejs file path.
+ * @return {String} The contents of the specified file.
+ * @static
+ */
+
+function fileLoader(filePath){
+  return exports.fileLoader(filePath);
 }
 
 /**
@@ -518,10 +672,7 @@ function handleCache(options, template) {
 
 function includeFile(path, options) {
   var opts = utils.shallowCopy({}, options);
-  if (!opts.filename) {
-    throw new Error('`include` requires the \'filename\' option.');
-  }
-  opts.filename = exports.resolveInclude(path, opts.filename);
+  opts.filename = getIncludePath(path, opts);
   return handleCache(opts);
 }
 
@@ -531,24 +682,24 @@ function includeFile(path, options) {
  * @memberof module:ejs-internal
  * @param {String}  path    path for the specified file
  * @param {Options} options compilation options
- * @return {String}
+ * @return {Object}
  * @static
  */
 
 function includeSource(path, options) {
-  var opts = utils.shallowCopy({}, options)
-    , includePath
-    , template;
-  if (!opts.filename) {
-    throw new Error('`include` requires the \'filename\' option.');
-  }
-  includePath = exports.resolveInclude(path, opts.filename);
-  template = fs.readFileSync(includePath).toString().replace(_BOM, '');
-
+  var opts = utils.shallowCopy({}, options);
+  var includePath;
+  var template;
+  includePath = getIncludePath(path, opts);
+  template = fileLoader(includePath).toString().replace(_BOM, '');
   opts.filename = includePath;
   var templ = new Template(template, opts);
   templ.generateSource();
-  return templ.source;
+  return {
+    source: templ.source,
+    filename: includePath,
+    template: template
+  };
 }
 
 /**
@@ -564,11 +715,11 @@ function includeSource(path, options) {
  * @static
  */
 
-function rethrow(err, str, filename, lineno){
-  var lines = str.split('\n')
-    , start = Math.max(lineno - 3, 0)
-    , end = Math.min(lines.length, lineno + 3);
-
+function rethrow(err, str, flnm, lineno, esc){
+  var lines = str.split('\n');
+  var start = Math.max(lineno - 3, 0);
+  var end = Math.min(lines.length, lineno + 3);
+  var filename = esc(flnm); // eslint-disable-line
   // Error context
   var context = lines.slice(start, end).map(function (line, i){
     var curr = i + start + 1;
@@ -588,24 +739,8 @@ function rethrow(err, str, filename, lineno){
   throw err;
 }
 
-/**
- * Copy properties in data object that are recognized as options to an
- * options object.
- *
- * This is used for compatibility with earlier versions of EJS and Express.js.
- *
- * @memberof module:ejs-internal
- * @param {Object}  data data object
- * @param {Options} opts options object
- * @static
- */
-
-function cpOptsInData(data, opts) {
-  _OPTS.forEach(function (p) {
-    if (typeof data[p] != 'undefined') {
-      opts[p] = data[p];
-    }
-  });
+function stripSemi(str){
+  return str.replace(/;(\s*$)/, '$1');
 }
 
 /**
@@ -653,15 +788,14 @@ exports.compile = function compile(template, opts) {
  * @public
  */
 
-exports.render = function (template, data, opts) {
-  data = data || {};
-  opts = opts || {};
-  var fn;
+exports.render = function (template, d, o) {
+  var data = d || {};
+  var opts = o || {};
 
   // No options object -- if there are optiony names
   // in the data, copy them to options
   if (arguments.length == 2) {
-    cpOptsInData(data, opts);
+    utils.shallowCopyFromList(opts, data, _OPTS);
   }
 
   return handleCache(opts, template)(data);
@@ -681,37 +815,43 @@ exports.render = function (template, data, opts) {
  */
 
 exports.renderFile = function () {
-  var args = Array.prototype.slice.call(arguments)
-    , path = args.shift()
-    , cb = args.pop()
-    , data = args.shift() || {}
-    , opts = args.pop() || {}
-    , result;
+  var filename = arguments[0];
+  var cb = arguments[arguments.length - 1];
+  var opts = {filename: filename};
+  var data;
 
-  // Don't pollute passed in opts obj with new vals
-  opts = utils.shallowCopy({}, opts);
+  if (arguments.length > 2) {
+    data = arguments[1];
 
-  // No options object -- if there are optiony names
-  // in the data, copy them to options
-  if (arguments.length == 3) {
-    // Express 4
-    if (data.settings && data.settings['view options']) {
-      cpOptsInData(data.settings['view options'], opts);
+    // No options object -- if there are optiony names
+    // in the data, copy them to options
+    if (arguments.length === 3) {
+      // Express 4
+      if (data.settings) {
+        if (data.settings['view options']) {
+          utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
+        }
+        if (data.settings.views) {
+          opts.views = data.settings.views;
+        }
+      }
+      // Express 3 and lower
+      else {
+        utils.shallowCopyFromList(opts, data, _OPTS_EXPRESS);
+      }
     }
-    // Express 3 and lower
     else {
-      cpOptsInData(data, opts);
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
+      utils.shallowCopy(opts, arguments[2]);
     }
-  }
-  opts.filename = path;
 
-  try {
-    result = handleCache(opts)(data);
+    opts.filename = filename;
   }
-  catch(err) {
-    return cb(err);
+  else {
+    data = {};
   }
-  return cb(null, result);
+
+  return tryHandleCache(opts, data, cb);
 };
 
 /**
@@ -742,7 +882,9 @@ function Template(text, opts) {
   options.context = opts.context;
   options.cache = opts.cache || false;
   options.rmWhitespace = opts.rmWhitespace;
+  options.root = opts.root;
   options.localsName = opts.localsName || exports.localsName || _DEFAULT_LOCALS_NAME;
+  options.views = opts.views;
 
   if (options.strict) {
     options._with = false;
@@ -757,39 +899,28 @@ function Template(text, opts) {
 }
 
 Template.modes = {
-  EVAL: 'eval'
-, ESCAPED: 'escaped'
-, RAW: 'raw'
-, COMMENT: 'comment'
-, LITERAL: 'literal'
+  EVAL: 'eval',
+  ESCAPED: 'escaped',
+  RAW: 'raw',
+  COMMENT: 'comment',
+  LITERAL: 'literal'
 };
 
 Template.prototype = {
   createRegex: function () {
-    var str = _REGEX_STRING
-      , delim = utils.escapeRegExpChars(this.opts.delimiter);
+    var str = _REGEX_STRING;
+    var delim = utils.escapeRegExpChars(this.opts.delimiter);
     str = str.replace(/%/g, delim);
     return new RegExp(str);
-  }
+  },
 
-, compile: function () {
-    var src
-      , fn
-      , opts = this.opts
-      , prepended = ''
-      , appended = ''
-      , escape = opts.escapeFunction;
-
-    if (opts.rmWhitespace) {
-      // Have to use two separate replace here as `^` and `$` operators don't
-      // work well with `\r`.
-      this.templateText =
-        this.templateText.replace(/\r/g, '').replace(/^\s+|\s+$/gm, '');
-    }
-
-    // Slurp spaces and tabs before <%_ and after _%>
-    this.templateText =
-      this.templateText.replace(/[ \t]*<%_/gm, '<%_').replace(/_%>[ \t]*/gm, '_%>');
+  compile: function () {
+    var src;
+    var fn;
+    var opts = this.opts;
+    var prepended = '';
+    var appended = '';
+    var escapeFn = opts.escapeFunction;
 
     if (!this.source) {
       this.generateSource();
@@ -810,19 +941,15 @@ Template.prototype = {
           + 'try {' + '\n'
           + this.source
           + '} catch (e) {' + '\n'
-          + '  rethrow(e, __lines, __filename, __line);' + '\n'
+          + '  rethrow(e, __lines, __filename, __line, escapeFn);' + '\n'
           + '}' + '\n';
     }
     else {
       src = this.source;
     }
 
-    if (opts.debug) {
-      console.log(src);
-    }
-
     if (opts.client) {
-      src = 'escape = escape || ' + escape.toString() + ';' + '\n' + src;
+      src = 'escapeFn = escapeFn || ' + escapeFn.toString() + ';' + '\n' + src;
       if (opts.compileDebug) {
         src = 'rethrow = rethrow || ' + rethrow.toString() + ';' + '\n' + src;
       }
@@ -831,9 +958,12 @@ Template.prototype = {
     if (opts.strict) {
       src = '"use strict";\n' + src;
     }
+    if (opts.debug) {
+      console.log(src);
+    }
 
     try {
-      fn = new Function(opts.localsName + ', escape, include, rethrow', src);
+      fn = new Function(opts.localsName + ', escapeFn, include, rethrow', src);
     }
     catch(e) {
       // istanbul ignore else
@@ -841,7 +971,9 @@ Template.prototype = {
         if (opts.filename) {
           e.message += ' in ' + opts.filename;
         }
-        e.message += ' while compiling ejs';
+        e.message += ' while compiling ejs\n\n';
+        e.message += 'If the above error is not helpful, you may want to try EJS-Lint:\n';
+        e.message += 'https://github.com/RyanZim/EJS-Lint';
       }
       throw e;
     }
@@ -862,24 +994,38 @@ Template.prototype = {
         }
         return includeFile(path, opts)(d);
       };
-      return fn.apply(opts.context, [data || {}, escape, include, rethrow]);
+      return fn.apply(opts.context, [data || {}, escapeFn, include, rethrow]);
     };
     returnedFn.dependencies = this.dependencies;
     return returnedFn;
-  }
+  },
 
-, generateSource: function () {
-    var self = this
-      , matches = this.parseTemplateText()
-      , d = this.opts.delimiter;
+  generateSource: function () {
+    var opts = this.opts;
+
+    if (opts.rmWhitespace) {
+      // Have to use two separate replace here as `^` and `$` operators don't
+      // work well with `\r`.
+      this.templateText =
+        this.templateText.replace(/\r/g, '').replace(/^\s+|\s+$/gm, '');
+    }
+
+    // Slurp spaces and tabs before <%_ and after _%>
+    this.templateText =
+      this.templateText.replace(/[ \t]*<%_/gm, '<%_').replace(/_%>[ \t]*/gm, '_%>');
+
+    var self = this;
+    var matches = this.parseTemplateText();
+    var d = this.opts.delimiter;
 
     if (matches && matches.length) {
       matches.forEach(function (line, index) {
-        var opening
-          , closing
-          , include
-          , includeOpts
-          , includeSrc;
+        var opening;
+        var closing;
+        var include;
+        var includeOpts;
+        var includeObj;
+        var includeSrc;
         // If this is an opening tag, check for closing tags
         // FIXME: May end up with some false positives here
         // Better to store modes as k/v with '<' + delimiter as key
@@ -897,9 +1043,23 @@ Template.prototype = {
           // Must be in EVAL or RAW mode
           if (opening && (opening == '<' + d || opening == '<' + d + '-' || opening == '<' + d + '_')) {
             includeOpts = utils.shallowCopy({}, self.opts);
-            includeSrc = includeSource(include[1], includeOpts);
-            includeSrc = '    ; (function(){' + '\n' + includeSrc +
-                '    ; })()' + '\n';
+            includeObj = includeSource(include[1], includeOpts);
+            if (self.opts.compileDebug) {
+              includeSrc =
+                  '    ; (function(){' + '\n'
+                  + '      var __line = 1' + '\n'
+                  + '      , __lines = ' + JSON.stringify(includeObj.template) + '\n'
+                  + '      , __filename = ' + JSON.stringify(includeObj.filename) + ';' + '\n'
+                  + '      try {' + '\n'
+                  + includeObj.source
+                  + '      } catch (e) {' + '\n'
+                  + '        rethrow(e, __lines, __filename, __line, escapeFn);' + '\n'
+                  + '      }' + '\n'
+                  + '    ; }).call(this)' + '\n';
+            }else{
+              includeSrc = '    ; (function(){' + '\n' + includeObj.source +
+                  '    ; }).call(this)' + '\n';
+            }
             self.source += includeSrc;
             self.dependencies.push(exports.resolveInclude(include[1],
                 includeOpts.filename));
@@ -910,19 +1070,17 @@ Template.prototype = {
       });
     }
 
-  }
+  },
 
-, parseTemplateText: function () {
-    var str = this.templateText
-      , pat = this.regex
-      , result = pat.exec(str)
-      , arr = []
-      , firstPos
-      , lastPos;
+  parseTemplateText: function () {
+    var str = this.templateText;
+    var pat = this.regex;
+    var result = pat.exec(str);
+    var arr = [];
+    var firstPos;
 
     while (result) {
       firstPos = result.index;
-      lastPos = pat.lastIndex;
 
       if (firstPos !== 0) {
         arr.push(str.substring(0, firstPos));
@@ -939,116 +1097,117 @@ Template.prototype = {
     }
 
     return arr;
-  }
+  },
 
-, scanLine: function (line) {
-    var self = this
-      , d = this.opts.delimiter
-      , newLineCount = 0;
-
-    function _addOutput() {
-      if (self.truncate) {
-        // Only replace single leading linebreak in the line after
-        // -%> tag -- this is the single, trailing linebreak
-        // after the tag that the truncation mode replaces
-        // Handle Win / Unix / old Mac linebreaks -- do the \r\n
-        // combo first in the regex-or
-        line = line.replace(/^(?:\r\n|\r|\n)/, '')
-        self.truncate = false;
-      }
-      else if (self.opts.rmWhitespace) {
-        // Gotta be more careful here.
-        // .replace(/^(\s*)\n/, '$1') might be more appropriate here but as
-        // rmWhitespace already removes trailing spaces anyway so meh.
-        line = line.replace(/^\n/, '');
-      }
-      if (!line) {
-        return;
-      }
-
-      // Preserve literal slashes
-      line = line.replace(/\\/g, '\\\\');
-
-      // Convert linebreaks
-      line = line.replace(/\n/g, '\\n');
-      line = line.replace(/\r/g, '\\r');
-
-      // Escape double-quotes
-      // - this will be the delimiter during execution
-      line = line.replace(/"/g, '\\"');
-      self.source += '    ; __append("' + line + '")' + '\n';
+  _addOutput: function (line) {
+    if (this.truncate) {
+      // Only replace single leading linebreak in the line after
+      // -%> tag -- this is the single, trailing linebreak
+      // after the tag that the truncation mode replaces
+      // Handle Win / Unix / old Mac linebreaks -- do the \r\n
+      // combo first in the regex-or
+      line = line.replace(/^(?:\r\n|\r|\n)/, '');
+      this.truncate = false;
     }
+    else if (this.opts.rmWhitespace) {
+      // rmWhitespace has already removed trailing spaces, just need
+      // to remove linebreaks
+      line = line.replace(/^\n/, '');
+    }
+    if (!line) {
+      return line;
+    }
+
+    // Preserve literal slashes
+    line = line.replace(/\\/g, '\\\\');
+
+    // Convert linebreaks
+    line = line.replace(/\n/g, '\\n');
+    line = line.replace(/\r/g, '\\r');
+
+    // Escape double-quotes
+    // - this will be the delimiter during execution
+    line = line.replace(/"/g, '\\"');
+    this.source += '    ; __append("' + line + '")' + '\n';
+  },
+
+  scanLine: function (line) {
+    var self = this;
+    var d = this.opts.delimiter;
+    var newLineCount = 0;
 
     newLineCount = (line.split('\n').length - 1);
 
     switch (line) {
-      case '<' + d:
-      case '<' + d + '_':
-        this.mode = Template.modes.EVAL;
-        break;
-      case '<' + d + '=':
-        this.mode = Template.modes.ESCAPED;
-        break;
-      case '<' + d + '-':
-        this.mode = Template.modes.RAW;
-        break;
-      case '<' + d + '#':
-        this.mode = Template.modes.COMMENT;
-        break;
-      case '<' + d + d:
-        this.mode = Template.modes.LITERAL;
-        this.source += '    ; __append("' + line.replace('<' + d + d, '<' + d) + '")' + '\n';
-        break;
-      case d + '>':
-      case '-' + d + '>':
-      case '_' + d + '>':
-        if (this.mode == Template.modes.LITERAL) {
-          _addOutput();
-        }
+    case '<' + d:
+    case '<' + d + '_':
+      this.mode = Template.modes.EVAL;
+      break;
+    case '<' + d + '=':
+      this.mode = Template.modes.ESCAPED;
+      break;
+    case '<' + d + '-':
+      this.mode = Template.modes.RAW;
+      break;
+    case '<' + d + '#':
+      this.mode = Template.modes.COMMENT;
+      break;
+    case '<' + d + d:
+      this.mode = Template.modes.LITERAL;
+      this.source += '    ; __append("' + line.replace('<' + d + d, '<' + d) + '")' + '\n';
+      break;
+    case d + d + '>':
+      this.mode = Template.modes.LITERAL;
+      this.source += '    ; __append("' + line.replace(d + d + '>', d + '>') + '")' + '\n';
+      break;
+    case d + '>':
+    case '-' + d + '>':
+    case '_' + d + '>':
+      if (this.mode == Template.modes.LITERAL) {
+        this._addOutput(line);
+      }
 
-        this.mode = null;
-        this.truncate = line.indexOf('-') === 0 || line.indexOf('_') === 0;
-        break;
-      default:
+      this.mode = null;
+      this.truncate = line.indexOf('-') === 0 || line.indexOf('_') === 0;
+      break;
+    default:
         // In script mode, depends on type of tag
-        if (this.mode) {
+      if (this.mode) {
           // If '//' is found without a line break, add a line break.
-          switch (this.mode) {
-            case Template.modes.EVAL:
-            case Template.modes.ESCAPED:
-            case Template.modes.RAW:
-              if (line.lastIndexOf('//') > line.lastIndexOf('\n')) {
-                line += '\n';
-              }
+        switch (this.mode) {
+        case Template.modes.EVAL:
+        case Template.modes.ESCAPED:
+        case Template.modes.RAW:
+          if (line.lastIndexOf('//') > line.lastIndexOf('\n')) {
+            line += '\n';
           }
-          switch (this.mode) {
+        }
+        switch (this.mode) {
             // Just executing code
-            case Template.modes.EVAL:
-              this.source += '    ; ' + line + '\n';
-              break;
+        case Template.modes.EVAL:
+          this.source += '    ; ' + line + '\n';
+          break;
             // Exec, esc, and output
-            case Template.modes.ESCAPED:
-              this.source += '    ; __append(escape(' +
-                line.replace(_TRAILING_SEMCOL, '').trim() + '))' + '\n';
-              break;
+        case Template.modes.ESCAPED:
+          this.source += '    ; __append(escapeFn(' + stripSemi(line) + '))' + '\n';
+          break;
             // Exec and output
-            case Template.modes.RAW:
-              this.source += '    ; __append(' +
-                line.replace(_TRAILING_SEMCOL, '').trim() + ')' + '\n';
-              break;
-            case Template.modes.COMMENT:
+        case Template.modes.RAW:
+          this.source += '    ; __append(' + stripSemi(line) + ')' + '\n';
+          break;
+        case Template.modes.COMMENT:
               // Do nothing
-              break;
+          break;
             // Literal <%% mode, append as raw output
-            case Template.modes.LITERAL:
-              _addOutput();
-              break;
-          }
+        case Template.modes.LITERAL:
+          this._addOutput(line);
+          break;
         }
+      }
         // In string mode, just add the output
-        else {
-          _addOutput();
-        }
+      else {
+        this._addOutput(line);
+      }
     }
 
     if (self.opts.compileDebug && newLineCount) {
@@ -1057,6 +1216,20 @@ Template.prototype = {
     }
   }
 };
+
+/**
+ * Escape characters reserved in XML.
+ *
+ * This is simply an export of {@link module:utils.escapeXML}.
+ *
+ * If `markup` is `undefined` or `null`, the empty string is returned.
+ *
+ * @param {String} markup Input string
+ * @return {String} Escaped string
+ * @public
+ * @func
+ * */
+exports.escapeXML = utils.escapeXML;
 
 /**
  * Express.js support.
@@ -1072,14 +1245,14 @@ exports.__express = exports.renderFile;
 // Add require support
 /* istanbul ignore else */
 if (require.extensions) {
-  require.extensions['.ejs'] = function (module, filename) {
-    filename = filename || /* istanbul ignore next */ module.filename;
+  require.extensions['.ejs'] = function (module, flnm) {
+    var filename = flnm || /* istanbul ignore next */ module.filename;
     var options = {
-          filename: filename
-        , client: true
-        }
-      , template = fs.readFileSync(filename).toString()
-      , fn = exports.compile(template, options);
+      filename: filename,
+      client: true
+    };
+    var template = fileLoader(filename).toString();
+    var fn = exports.compile(template, options);
     module._compile('module.exports = ' + fn.toString() + ';', filename);
   };
 }
@@ -1094,12 +1267,22 @@ if (require.extensions) {
 
 exports.VERSION = _VERSION_STRING;
 
+/**
+ * Name for detection of EJS.
+ *
+ * @readonly
+ * @type {String}
+ * @public
+ */
+
+exports.name = _NAME;
+
 /* istanbul ignore if */
 if (typeof window != 'undefined') {
   window.ejs = exports;
 }
 
-},{"../package.json":8,"./utils":7,"fs":9,"path":10}],7:[function(require,module,exports){
+},{"../package.json":9,"./utils":8,"fs":6,"path":10}],8:[function(require,module,exports){
 /*
  * EJS Embedded JavaScript templates
  * Copyright 2112 Matthew Eernisse (mde@fleegix.org)
@@ -1147,17 +1330,17 @@ exports.escapeRegExpChars = function (string) {
 };
 
 var _ENCODE_HTML_RULES = {
-      '&': '&amp;'
-    , '<': '&lt;'
-    , '>': '&gt;'
-    , '"': '&#34;'
-    , "'": '&#39;'
-    }
-  , _MATCH_HTML = /[&<>\'"]/g;
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&#34;',
+  "'": '&#39;'
+};
+var _MATCH_HTML = /[&<>\'"]/g;
 
 function encode_char(c) {
   return _ENCODE_HTML_RULES[c] || c;
-};
+}
 
 /**
  * Stringified version of constants used by {@link module:utils.escapeXML}.
@@ -1200,11 +1383,13 @@ exports.escapeXML = function (markup) {
         .replace(_MATCH_HTML, encode_char);
 };
 exports.escapeXML.toString = function () {
-  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr
+  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
 };
 
 /**
- * Copy all properties from one object to another, in a shallow fashion.
+ * Naive copy of properties from one object to another.
+ * Does not recurse into non-scalar properties
+ * Does not check to see if the property has a value before copying
  *
  * @param  {Object} to   Destination object
  * @param  {Object} from Source object
@@ -1216,6 +1401,28 @@ exports.shallowCopy = function (to, from) {
   from = from || {};
   for (var p in from) {
     to[p] = from[p];
+  }
+  return to;
+};
+
+/**
+ * Naive copy of a list of key names, from one object to another.
+ * Only copies property if it is actually defined
+ * Does not recurse into non-scalar properties
+ *
+ * @param  {Object} to   Destination object
+ * @param  {Object} from Source object
+ * @param  {Array} list List of properties to copy
+ * @return {Object}      Destination object
+ * @static
+ * @private
+ */
+exports.shallowCopyFromList = function (to, from, list) {
+  for (var i = 0; i < list.length; i++) {
+    var p = list[i];
+    if (typeof from[p] != 'undefined') {
+      to[p] = from[p];
+    }
   }
   return to;
 };
@@ -1241,21 +1448,61 @@ exports.cache = {
   }
 };
 
-
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports={
-  "name": "ejs",
-  "description": "Embedded JavaScript templates",
-  "keywords": [
-    "template",
-    "engine",
-    "ejs"
+  "_args": [
+    [
+      {
+        "raw": "ejs@^2.4.1",
+        "scope": null,
+        "escapedName": "ejs",
+        "name": "ejs",
+        "rawSpec": "^2.4.1",
+        "spec": ">=2.4.1 <3.0.0",
+        "type": "range"
+      },
+      "C:\\Users\\AgMiHucTpaTop\\Documents\\GitHub\\JS-Pizza"
+    ]
   ],
-  "version": "2.4.1",
+  "_from": "ejs@>=2.4.1 <3.0.0",
+  "_id": "ejs@2.5.7",
+  "_inCache": true,
+  "_location": "/ejs",
+  "_nodeVersion": "6.9.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/ejs-2.5.7.tgz_1501385411193_0.3807816591579467"
+  },
+  "_npmUser": {
+    "name": "mde",
+    "email": "mde@fleegix.org"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ejs@^2.4.1",
+    "scope": null,
+    "escapedName": "ejs",
+    "name": "ejs",
+    "rawSpec": "^2.4.1",
+    "spec": ">=2.4.1 <3.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz",
+  "_shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+  "_shrinkwrap": null,
+  "_spec": "ejs@^2.4.1",
+  "_where": "C:\\Users\\AgMiHucTpaTop\\Documents\\GitHub\\JS-Pizza",
   "author": {
     "name": "Matthew Eernisse",
     "email": "mde@fleegix.org",
     "url": "http://fleegix.org"
+  },
+  "bugs": {
+    "url": "https://github.com/mde/ejs/issues"
   },
   "contributors": [
     {
@@ -1264,65 +1511,57 @@ module.exports={
       "url": "https://timothygu.github.io"
     }
   ],
-  "license": "Apache-2.0",
-  "main": "./lib/ejs.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mde/ejs.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mde/ejs/issues"
-  },
-  "homepage": "https://github.com/mde/ejs",
   "dependencies": {},
+  "description": "Embedded JavaScript templates",
   "devDependencies": {
-    "browserify": "^8.0.3",
-    "istanbul": "~0.3.5",
+    "browserify": "^13.0.1",
+    "eslint": "^3.0.0",
+    "git-directory-deploy": "^1.5.1",
+    "istanbul": "~0.4.3",
     "jake": "^8.0.0",
-    "jsdoc": "^3.3.0-beta1",
-    "lru-cache": "^2.5.0",
-    "mocha": "^2.1.0",
-    "rimraf": "^2.2.8",
-    "uglify-js": "^2.4.16"
+    "jsdoc": "^3.4.0",
+    "lru-cache": "^4.0.1",
+    "mocha": "^3.0.2",
+    "uglify-js": "^2.6.2"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "cc872c168880ae3c7189762fd5ffc00896c9518a",
+    "tarball": "https://registry.npmjs.org/ejs/-/ejs-2.5.7.tgz"
   },
   "engines": {
     "node": ">=0.10.0"
   },
-  "scripts": {
-    "test": "mocha",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
-    "doc": "rimraf out && jsdoc -c jsdoc.json lib/* docs/jsdoc/*",
-    "devdoc": "rimraf out && jsdoc -p -c jsdoc.json lib/* docs/jsdoc/*"
-  },
-  "_id": "ejs@2.4.1",
-  "_shasum": "82e15b1b2a1f948b18097476ba2bd7c66f4d1566",
-  "_resolved": "https://registry.npmjs.org/ejs/-/ejs-2.4.1.tgz",
-  "_from": "ejs@>=2.4.1 <3.0.0",
-  "_npmVersion": "2.10.1",
-  "_nodeVersion": "0.12.4",
-  "_npmUser": {
-    "name": "mde",
-    "email": "mde@fleegix.org"
-  },
+  "homepage": "https://github.com/mde/ejs",
+  "keywords": [
+    "template",
+    "engine",
+    "ejs"
+  ],
+  "license": "Apache-2.0",
+  "main": "./lib/ejs.js",
   "maintainers": [
-    {
-      "name": "tjholowaychuk",
-      "email": "tj@vision-media.ca"
-    },
     {
       "name": "mde",
       "email": "mde@fleegix.org"
     }
   ],
-  "dist": {
-    "shasum": "82e15b1b2a1f948b18097476ba2bd7c66f4d1566",
-    "tarball": "http://registry.npmjs.org/ejs/-/ejs-2.4.1.tgz"
+  "name": "ejs",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mde/ejs.git"
   },
-  "directories": {},
-  "readme": "ERROR: No README data found!"
+  "scripts": {
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha",
+    "devdoc": "jake doc[dev]",
+    "doc": "jake doc",
+    "lint": "eslint \"**/*.js\" Jakefile",
+    "test": "jake test"
+  },
+  "version": "2.5.7"
 }
-
-},{}],9:[function(require,module,exports){
 
 },{}],10:[function(require,module,exports){
 (function (process){
@@ -1554,14 +1793,103 @@ var substr = 'ab'.substr(-1) === 'b'
 }).call(this,require('_process'))
 },{"_process":11}],11:[function(require,module,exports){
 // shim for using process in browser
-
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -1577,7 +1905,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -1594,7 +1922,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -1606,7 +1934,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        runTimeout(drainQueue);
     }
 };
 
@@ -1634,6 +1962,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
