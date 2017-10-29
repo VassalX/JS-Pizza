@@ -23,7 +23,7 @@ function addToCart(pizza, size) {
     //Приклад реалізації, можна робити будь-яким іншим способом
     var isFound = false;
     Cart.forEach(function (cart_item) {
-        if(!isFound && cart_item.pizza==pizza && cart_item.size==size) {
+        if(!isFound && cart_item.pizza.title===pizza.title && cart_item.size===size) {
             cart_item.quantity += 1;
             isFound = true;
         }
