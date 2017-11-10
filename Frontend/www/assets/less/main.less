@@ -101,6 +101,7 @@ h3{
     width: @badgeWidth;
     height: @bottomBadgeHeight;
     .disc-label{
+      font-size: 14pt;
       height: @bottomBadgeHeight - @discountHeight;
     }
     z-index: 11;
@@ -117,7 +118,9 @@ h3{
 
 .flag{
   position: fixed;
+  width: @badgeWidth;
   left:@smallSpace;
+  z-index: 20;
   &.top{
     top:@top-menuHeight - 1px;
     transform: scaleY(-1);

@@ -2,10 +2,10 @@
     var smallCol = "col-sm-6 pizza-small";
     var bigCol = "col-sm-6 pizza-big";
 
-    if(pizza.big_size===undefined)
+    if(!pizza.big_size)
         smallCol = "col-xs-12 pizza-small";
 
-    if(pizza.small_size===undefined)
+    if(!pizza.small_size)
         bigCol = "col-xs-12 pizza-big";
 
 function getIngredientsArray(pizza) {
