@@ -15,6 +15,7 @@
 
 </head>
 <body>
+
 <div id="top-menu">
     <div class="top-menu-panel">
         <div class="menu-lines">
@@ -40,11 +41,6 @@
     <div class="boldText">KMA</div>
     <img class="flag top" src="assets/images/discount.svg">
 </div>
-<div class="badge-flag bottom">
-    <div class="disc-label">Цього тижня на все</div>
-    <div class="discount">-20%</div>
-    <img class="flag bottom" src="assets/images/discount.svg">
-</div>
 <div class="cart">
     <div class="inner-panel">
         <div class="top-panel">
@@ -66,29 +62,53 @@
         </div>
     </div>
 </div>
+<div class="badge-flag bottom">
+    <div class="disc-label">Цього тижня на все</div>
+    <div class="discount">-20%</div>
+    <img class="flag bottom" src="assets/images/discount.svg">
+</div>
 <div class="container-fluid main-container">
-    <div class="center-panel">
-        <div class="inner-panel">
-            <div class="choice-menu">
-                <div class="chosen">
-                    <span class="chosenOption">Усі</span><span class="badge pizzaNumber">0</span>
-                </div>
-                <div class="chooseButtonsGroup">
-                    <a class="btn btn-default chooseButton all active">Усі</a>
-                    <a class="btn btn-default chooseButton meat">М'ясні</a>
-                    <a class="btn btn-default chooseButton pineapple">З ананасами</a>
-                    <a class="btn btn-default chooseButton mushroom">З грибами</a>
-                    <a class="btn btn-default chooseButton ocean">З морепродуктами</a>
-                    <!--<a class="btn btn-default chooseButton x3">Вага</a>-->
+    <div class="order-page-panel">
+        <div class="row input-panel">
+            <div class="col-xs-12 heading-1">1. Контактні дані</div>
+            <div class="col-md-7">
+                <form class="contacts-form">
+                    <div class="form-group name row">
+                        <label class="inputLabel col-sm-2">Ім'я</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputName"  placeholder="Ім'я Прізвище">
+                        </div>
+                    </div>
+                    <div class="form-group tel row">
+                        <label class="inputLabel col-sm-2">Телефон</label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" id="inputTel" placeholder="+380987654321">
+                        </div>
+                    </div>
+                    <div class="form-group adress row">
+                        <label class="inputLabel col-sm-2">Адреса</label>
+                        <div class="col-sm-10">
+                            <input type=text class="form-control" id="inputAdress" placeholder="Київ, вул. Григорія Сковороди, 2">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <div class="bs-callout bs-callout-warning">
+                        <h4>Інформація про замовлення</h4>
+                    <p class="order-time"><b>Приблизний час доставки:</b>невідомий</p>
+                    <p class="order-adress"><b>Адреса доставки:</b>невідома</p>
                 </div>
             </div>
-            <div class="row" id="pizza_list">
-
+            <div class="col-xs-12 form-group next-panel">
+                <button type="button" class="btn btn-lg btn-warning next-step">
+                    Далі
+                    <span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </button>
             </div>
         </div>
     </div>
 </div>
-
 <footer class="footer">
     <p>Pizza.22 - практичний проект в межах курсу JavaScript в Києво-Могилянській Академії</p>
     <p>

@@ -1,0 +1,48 @@
+<% include common/header.ejs %>
+
+<div class="cart">
+    <div class="inner-panel">
+        <div class="top-panel">
+            <span class="order">Замовлення</span>
+            <span class="badge number_cart">0</span>
+            <a class="clear_cart">Очистити кошик</a>
+        </div>
+        <div id="cart" class="cart-list">
+
+        </div>
+        <div class="bottom-panel">
+            <div class="money-part">
+                <span>Сума замовлення</span>
+                <span id="sum_money">0 грн.</span>
+            </div>
+            <div class="order-button-part">
+                <button class="btn btn-default" id="make-order">Замовити</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid main-container">
+    <div class="center-panel">
+        <div class="inner-panel">
+            <div class="choice-menu">
+                <div class="chosen">
+                    <span class="chosenOption">Усі</span><span class="badge pizzaNumber">0</span>
+                </div>
+                <div class="chooseButtonsGroup">
+                    <a class="btn btn-default chooseButton all active">Усі</a>
+                    <a class="btn btn-default chooseButton meat">М'ясні</a>
+                    <a class="btn btn-default chooseButton pineapple">З ананасами</a>
+                    <a class="btn btn-default chooseButton mushroom">З грибами</a>
+                    <a class="btn btn-default chooseButton ocean">З морепродуктами</a>
+                    <!--<a class="btn btn-default chooseButton x3">Вага</a>-->
+                </div>
+            </div>
+            <div class="row" id="pizza_list">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<% include common/footer.ejs %>
