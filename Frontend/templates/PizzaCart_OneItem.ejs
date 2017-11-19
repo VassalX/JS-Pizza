@@ -1,3 +1,4 @@
+
 <div class="item">
     <div class="item-name"> <%= pizza.title %>
         <% if(size == "big_size"){ %>
@@ -13,7 +14,7 @@
         <img class="weight-icon" src="assets/images/weight.svg">
         <span class="weight-value"><%= pizza[size].weight%></span>
     </div>
-    <div class="item-price">
+    <div class="item-edit">
         <span class="price"><%= pizza[size].price * quantity %> грн.</span>
 
         <button class="btn btn-default btn-sm minus">
@@ -29,6 +30,10 @@
         <button class="btn btn-default btn-sm delete">
             <span class="glyphicon glyphicon-remove"></span>
         </button>
+    </div>
+    <div class="item-price">
+        <span class="price"><%= pizza[size].price * quantity %> грн.</span>
+        <span class="item-number"><%= quantity %> піцц<%=(quantity<2)?'a':(quantity<5)?'и':''%></span>
     </div>
     <img class="item-icon" src=<%= pizza.icon%>>
 </div>
