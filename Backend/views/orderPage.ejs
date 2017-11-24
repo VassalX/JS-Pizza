@@ -24,28 +24,31 @@
 </div>
 <div class="container-fluid main-container">
     <div class="order-page-panel">
-        <form class="row input-panel">
+        <div class="row input-panel">
             <div class="col-xs-12 heading-1">1. Контактні дані</div>
             <div class="col-md-7">
                 <div class="contacts-form">
                     <div class="form-group name row">
                         <label class="inputLabel col-sm-2">Ім'я</label>
                         <div class="col-sm-10">
-                            <input type="text" name="name" class="form-control name" id="inputName"  placeholder="Ім'я Прізвище">
+                            <input type="text" name="name" class="form-control name"
+                                   id="inputName"  placeholder="Ім'я Прізвище">
                             <span id="nameValid"></span>
                         </div>
                     </div>
                     <div class="form-group tel row">
                         <label class="inputLabel col-sm-2">Телефон</label>
                         <div class="col-sm-10">
-                            <input type="tel" name="telephone" class="form-control tel" id="inputTel" placeholder="380987654321">
+                            <input type="text" name="telephone" class="form-control tel"
+                                   id="inputTel" placeholder="380987654321" >
                             <span id="telValid"></span>
                         </div>
                     </div>
                     <div class="form-group adress row">
                         <label class="inputLabel col-sm-2">Адреса</label>
                         <div class="col-sm-10">
-                            <input type=text name="adress" class="form-control adress" id="inputAdress" placeholder="Київ, вул. Григорія Сковороди, 2">
+                            <input type=text name="adress" class="form-control adress"
+                                   id="inputAdress" placeholder="Київ, вул. Григорія Сковороди, 2">
                             <span id="adressValid"></span>
                         </div>
                     </div>
@@ -59,12 +62,12 @@
                 </div>
             </div>
             <div class="col-xs-12 form-group next-panel">
-                <button type="submit" name="submit" class="btn btn-lg btn-warning next-step" disabled>
+                <button type="button" id="nextStep" name="submit" class="btn btn-lg btn-warning next-step" disabled>
                     Далі
                     <span class="glyphicon glyphicon-circle-arrow-right"></span>
                 </button>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 <% include common/footer.ejs %>

@@ -1,19 +1,24 @@
+var API = require("../API");
+var PizzaCart = require("./PizzaCart");
+
 var nameIsOk = false;
 var telIsOk = false;
 var adressIsOk = false;
 
+var patternName = /^[ІіЇїЁёа-яА-Яa-zA-Z\s]+$/;
+var patternTel = /^[+]{0,1}\d{4,15}$/;
+var patternAdress = /^.{5,}$/;
+
+var name = $("#inputName");
+var tel = $("#inputTel");
+var adress = $("#inputAdress");
+
+var messageName = $("#nameValid");
+var messageTel = $("#telValid");
+var messageAdress = $("#adressValid");
+
 $(".input-panel").ready(function(){
-    var patternName = /^[ЁёІіЇїЄєA-Za-zА-Яа-я\s]+$/;
-    var patternTel = /^[0-9]{4,15}/;
-    var patternAdress = /.{5,}/;
 
-    var name = $("#inputName");
-    var tel = $("#inputTel");
-    var adress = $("#inputAdress");
-
-    var messageName = $("#nameValid");
-    var messageTel = $("#telValid");
-    var messageAdress = $("#adressValid");
 
     name.blur(function(){
         nameIsOk = fieldValidation(name, patternName,messageName);
@@ -29,12 +34,28 @@ $(".input-panel").ready(function(){
         adressIsOk = fieldValidation(adress, patternAdress, messageAdress);
         $(".next-step").attr('disabled',!(nameIsOk && telIsOk && adressIsOk));
     });
-});
 
-function fieldValidation(field,pattern,message){
+});
+$(".next-step").click(function () {
+    var order = {
+        name: name.val(),
+        tel: tel.val(),
+        adress: adress.val(),
+        pizzas: PizzaCart.getPizzaInCart()
+    };
+    API.createOrder(order,function(err){
+        if(err){
+            alert("Сталася помилка :(");
+            return callback(err);
+        }
+        alert("Ваше замовлення відправлено!");
+    });
+});
+function fieldValidation(field,pattern,message,messText){
     if(field.val() != ''){
-        console.log("1:",field.val().search(pattern));
-        if(field.val().search(pattern) == 0){
+        //console.log(field.val().search(pattern));
+        //console.log(pattern.test(field.val()));
+        if(pattern.test(field.val())){
             message.text("");
             field.addClass("ok");
             field.removeClass("error");
@@ -50,4 +71,10 @@ function fieldValidation(field,pattern,message){
         field.removeClass("ok");
     }
     return false;
+}
+
+function initializa(){
+    var mapProp = {
+
+    }
 }
