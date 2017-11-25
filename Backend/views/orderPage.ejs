@@ -55,17 +55,21 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="bs-callout bs-callout-warning">
+                <div class="bs-callout bs-callout-warning order-info">
                     <h4>Інформація про замовлення</h4>
-                    <p class="order-time"><b>Приблизний час доставки:</b>невідомий</p>
-                    <p class="order-adress"><b>Адреса доставки:</b>невідома</p>
+                    <p><b>Приблизний час доставки: </b ><span class="order-time">невідомий</span></p>
+                    <p><b>Адреса доставки: </b><span class="order-adress">невідома</span></p>
                 </div>
             </div>
             <div class="col-xs-12 form-group next-panel">
+                <span class="next-step-info">Заповніть поля форми та точку вашого місцезнаходження на карті</span>
                 <button type="button" id="nextStep" name="submit" class="btn btn-lg btn-warning next-step" disabled>
                     Далі
                     <span class="glyphicon glyphicon-circle-arrow-right"></span>
                 </button>
+            </div>
+            <div class="col-xs-12 google-map">
+                <div id="googleMap"></div>
             </div>
         </div>
     </div>

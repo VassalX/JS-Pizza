@@ -11,4 +11,5 @@ $(function(){
 
     PizzaCart.initialiseCart();
     PizzaMenu.initialiseMenu();
+    OrderMenu.initOrderPage();
 });
