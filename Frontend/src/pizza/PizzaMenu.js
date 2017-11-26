@@ -12,7 +12,8 @@ var menu_info = [
     "meat",
     "pineapple",
     "mushroom",
-    "ocean"
+    "ocean",
+    "vega"
 ];
 function showPizzaList(list) {
     //Очищаємо старі піци в кошику
@@ -43,9 +44,11 @@ function filterPizza(filter) {
 
     Pizza_List.forEach(function(pizza){
         //Якщо піца відповідає фільтру
-        if(filter === "all" || JSON.stringify(pizza.content).indexOf(filter)!==-1)
+        if(filter === "vega"    && JSON.stringify(pizza.content).indexOf("meat")===-1
+                                && JSON.stringify(pizza.content).indexOf("ocean")===-1){
             pizza_shown.push(pizza);
-        //TODO: зробити фільтри
+        }else if(filter === "all" || JSON.stringify(pizza.content).indexOf(filter)!==-1)
+            pizza_shown.push(pizza);
     });
     $(".pizzaNumber").text(pizza_shown.length);
     //Показати відфільтровані піци

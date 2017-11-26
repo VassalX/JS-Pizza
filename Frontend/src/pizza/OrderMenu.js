@@ -28,6 +28,7 @@ function initOrderPage() {
         google.maps.event.addDomListener(window,'load',function()	{
             var directionsDisplay = new google.maps.DirectionsRenderer();
             var directionService =	new	google.maps.DirectionsService();
+            var geocoder	=	new	google.maps.Geocoder();
             //Тут починаємо працювати з картою
             var mapProp =	{
                 center:	new	google.maps.LatLng(50.464379,30.519131),
@@ -45,48 +46,74 @@ function initOrderPage() {
                 map:	map,  //map	- це змінна карти створена за допомогою new google.maps.Map(...)
                 icon:	"assets/images/map-icon.png"
             });
-            function	geocodeLatLng(latlng,	 callback){//Модуль за роботу з адресою
-                var geocoder	=	new	google.maps.Geocoder();
-                geocoder.geocode({'location':	latlng},	function(results,	status)	{
-                    if	(status	===	google.maps.GeocoderStatus.OK&&	results[1])	{
-                        var adress =	results[1].formatted_address;
-                        callback(null,	adress);
-                    }	else	{
-                        callback(new	Error("Can't	find	adress"));
+            google.maps.event.addListener(map, 'click',function(me){
+                createPath(me.latLng,true);
+            });
+            var run_id = false;
+            adressField.on("keyup",function() {
+                if(run_id)
+                    clearTimeout(run_id);
+                run_id=false;
+                if(adressIsOk){
+                    orderInfo.find(".order-adress").text(adressField.val());
+                    run_id = setTimeout(function () {
+                        geocodeAddress(adressField.val(),function(err,coordinates){
+                            if(!err){
+                                createPath(coordinates,false);
+                            }else{
+                                cantFindAdress();
+                                //console.log(err);
+                            }
+                        });
+                    },500);
+                }else{
+                    cantFindAdress();
+                    orderInfo.find(".order-adress").text("невідома");
+                    orderInfo.find(".order-time").text("невідомий");
+                }
+            });
+            function createPath(coordinates, updateAdress){
+                //console.log("coords:"+coordinates);
+                geocodeLatLng(coordinates,	function(err,	adress){
+                    //console.log("adress:"+adress);
+                    if(!err){//Дізналися адресу
+                        console.log(adress);
+                        if(updateAdress){
+                            adressField.val(""+adress);
+                            checkAdress();
+                        }
+                        if(!homeMarker){
+                            homeMarker = new google.maps.Marker({
+                                position: coordinates,
+                                map: map,
+                                icon: "assets/images/home-icon.png"
+                            });
+                        }else{
+                            homeMarker.setMap(map);
+                            homeMarker.setPosition(coordinates);
+                        }
+                        calculateRoute(point,coordinates,function(err,result){
+                            if(!err){
+                                orderInfo.find(".order-time").text(""+result.duration.text);
+                            }else{
+                                cantFindAdress();
+                                //console.log(err);
+                            }
+                        });
+                    }else{
+                        cantFindAdress();
+                        //console.log("Немає адреси\n"+err);
                     }
                 });
             }
-            google.maps.event.addListener(map,
-                'click',function(me){
-                    var coordinates	=	me.latLng;
-                    geocodeLatLng(coordinates,	function(err,	adress){
-                        if(!err)	{//Дізналися адресу
-                            if(!homeMarker){
-                                homeMarker = new google.maps.Marker({
-                                    position: coordinates,
-                                    map: map,
-                                    icon: "assets/images/home-icon.png"
-                                });
-                            }else{
-                                homeMarker.setPosition(coordinates);
-                            }
-                            orderInfo.find(".order-adress").text(""+adress);
-                            adressField.val(""+adress);
-                            checkAdress();
-                            calculateRoute(point,coordinates,function(err,result){
-                                if(!err){
-                                    orderInfo.find(".order-time").text(""+result.duration.text);
-                                }else{
-                                    console.log(err);
-                                }
-                            });
-                            console.log(adress);
-                        }	else	{
-                            console.log("Немає адреси");
-                        }
-                    });
-                });
-            function	calculateRoute(A_latlng,	 B_latlng,	callback)	{
+            function cantFindAdress(err){
+                directionsDisplay.setMap(null);
+                if(homeMarker)
+                    homeMarker.setMap(null);
+                orderInfo.find(".order-time").text("невідомий");
+            }
+            function calculateRoute(A_latlng,B_latlng,callback)	{
+                directionsDisplay.setMap(map);
                 directionService.route({
                     origin:	A_latlng,
                     destination:	B_latlng,
@@ -100,6 +127,26 @@ function initOrderPage() {
                         });
                     }	else	{
                         callback(new	Error("Can'	not	find	direction"));
+                    }
+                });
+            }
+            function	geocodeLatLng(latlng,	 callback){//Модуль за роботу з адресою
+                geocoder.geocode({'location':	latlng},	function(results,	status)	{
+                    if	(status	===	google.maps.GeocoderStatus.OK&&	results[1])	{
+                        var adress =	results[1].formatted_address;
+                        callback(null,	adress);
+                    }	else	{
+                        callback(new	Error("Can't	find	adress"));
+                    }
+                });
+            }
+            function	geocodeAddress(adress,	 callback)	{
+                geocoder.geocode({'address':	adress},	function(results,	status)	{
+                    if	(status	===	google.maps.GeocoderStatus.OK&&	results[0])	{
+                        var coordinates	=	results[0].geometry.location;
+                        callback(null,	coordinates);
+                    }	else	{
+                        callback(new	Error("Can	not	find	the	adress"));
                     }
                 });
             }
@@ -139,12 +186,24 @@ $(".next-step").click(function () {
         adress: adressField.val(),
         pizzas: PizzaCart.getPizzaInCart()
     };
-    API.createOrder(order,function(err){
+    API.createOrder(order,function(err,server_data){
         if(err){
             alert("Сталася помилка :(");
             return callback(err);
         }
-        alert("Ваше замовлення відправлено!");
+        LiqPayCheckout.init({
+            data:	server_data.data,//"Дані...",
+            signature:	server_data.signature,//"Підпис...",
+            embedTo:	"#liqpay",
+            mode:	"popup"	//	embed	||	popup
+        }).on("liqpay.callback",	function(data){
+            console.log(data.status);
+            console.log(data);
+        }).on("liqpay.ready",	function(data){
+            //	ready
+        }).on("liqpay.close",	function(data){
+            //	close
+        });
     });
 });
 function fieldValidation(field,pattern,message,messText){

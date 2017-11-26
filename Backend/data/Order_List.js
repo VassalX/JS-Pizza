@@ -1,1 +1,0 @@
-module.exports = order_info;
