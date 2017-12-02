@@ -38,7 +38,7 @@ exports.createOrder = function(req, res) {
     //console.log("description:",description);
     var order	=	{
         version:	3,
-        public_key:	"i96776360770",
+        public_key:	"i46710467848",
         action:	"pay",
         amount:	amount,
         currency:	"UAH",
@@ -48,8 +48,8 @@ exports.createOrder = function(req, res) {
     };
     var data	=	base64(JSON.stringify(order));
     var signature	=	sha1(
-        "EsNbRRQZePvIXoYtZMwbqJsYeRzJLclIhJ0A8ev7"	+	data	+
-        "EsNbRRQZePvIXoYtZMwbqJsYeRzJLclIhJ0A8ev7");
+        "dT1PoPMO1diI71hpDQ2dpeqitdml461Jct6atZV2"	+	data	+
+        "dT1PoPMO1diI71hpDQ2dpeqitdml461Jct6atZV2");
     res.send({
         success: true,
         data: data,
